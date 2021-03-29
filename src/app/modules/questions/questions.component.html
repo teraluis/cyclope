@@ -1,1 +1,21 @@
-<p>questions works!</p>
+<div class="chronometers">
+  <div class="chronometer">
+    <span *ngIf="minutes > 0">Minutes {{minutes}} :</span>
+    <span *ngIf="minutes === 0">Time: </span>
+    {{seconders}}
+  </div>
+</div>
+<div class="scores">
+  <div class="score align-right">HIGH SCORE :</div>
+  <div class="score align-left">{{highScore}}</div>
+</div>
+<div class="scores">
+  <div class="score align-right">CURRENT SCORE :</div>
+  <div class="score align-left">{{score}}</div>
+</div>
+<app-question [castingId]="castingId"
+              [movieId]="movieId"
+              [count]="question"
+              (notify)="onNotify($event)"
+></app-question>
+

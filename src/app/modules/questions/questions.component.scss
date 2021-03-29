@@ -1,0 +1,29 @@
+.container {
+  margin: 2% 10%;
+  width: auto;
+  display: flex;
+  justify-content: space-evenly;
+}
+.scores, .chronometers {
+  display: flex;
+  column-gap: 10px;
+  justify-content: flex-end;
+  margin: 0.5% 10%;
+}
+.score {
+  font-weight: bold;
+  text-align: left;
+}
+.align-left {
+  text-align: left;
+}
+.align-right {
+  text-align: right;
+}
+.chronometer {
+  font-size: 2em;
+  font-family: "Arial", serif;
+}
+
+
+

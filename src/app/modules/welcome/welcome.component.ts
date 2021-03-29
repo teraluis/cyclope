@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {MenuStep} from '../../core/menu';
 
 @Component({
   selector: 'app-welcome',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WelcomeComponent implements OnInit {
 
-  constructor() { }
+  @Input() name = 'cyclope';
+  time = 60;
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  start() {
+    this.router.navigate([MenuStep.QUESTIONS]);
   }
 
 }

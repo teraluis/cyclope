@@ -57,6 +57,7 @@ import { QuestionsComponent } from './modules/questions/questions.component';
 import { QuestionComponent } from './modules/question/question.component';
 import { ActorComponent } from './modules/actor/actor.component';
 import { MovieComponent } from './modules/movie/movie.component';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -116,6 +117,9 @@ import { MovieComponent } from './modules/movie/movie.component';
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    OverlayModule
   ],
   providers: [],
   bootstrap: [AppComponent]

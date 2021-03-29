@@ -1,1 +1,23 @@
-<p>question works!</p>
+<h1>Question {{count}}</h1>
+<div *ngIf="isLoadActor && isLoadMovie">
+  <div class="container">
+    <div class="actor">
+      <img class="img" src="{{actor.img}}" >
+    </div>
+    <div class="movie">
+      <img class="img" src="{{movie.img}}">
+    </div>
+  </div>
+  <div class="container">
+    <div>
+      <p class="question">Did <span style="color: blue">{{actor.name}}</span> play in <span style="color: blue">{{movie.title}}</span>?</p>
+    </div>
+  </div>
+  <div class="tag">
+    <div><button mat-raised-button color="warn"
+                 (click)="noAnswer()">NO</button></div>
+    <div><button mat-raised-button color="primary"
+                 (click)="yesAnswer()">YES</button></div>
+  </div>
+</div>
+
