@@ -1,1 +1,17 @@
-<p>game-over works!</p>
+<div class="welcome">
+  <mat-card class="shadow">
+    <h3>Game Over</h3>
+    <h4>{{getMessage()}}</h4>
+    <div style="padding:0 42%; width: auto">
+      <ul *ngIf="scoreIsLoad">
+        <li>Your score: {{score}}</li>
+        <li>High Score: {{highScore}}</li>
+      </ul>
+    </div>
+
+    <p><b>You can retry it when you click in the button below</b></p>
+    <button mat-raised-button color="accent"
+            (click)="start()"
+            style="width: 100%">Retry</button>
+  </mat-card>
+</div>

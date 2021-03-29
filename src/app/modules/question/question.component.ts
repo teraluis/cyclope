@@ -32,7 +32,7 @@ export class QuestionComponent implements OnInit, OnChanges {
   constructor(private _actorsService: ActorsService, private _moviesService: MoviesService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!changes.movieId.firstChange && changes.movieId.currentValue !== changes.movieId.previousValue) {
+    if (!changes.movieId.firstChange) {
       this.initCasting();
       this.initMovie();
     }
@@ -62,6 +62,7 @@ export class QuestionComponent implements OnInit, OnChanges {
           notFound: true,
           next: false
         });
+        this.isLoadActor = false;
       }
     });
   }
@@ -82,6 +83,7 @@ export class QuestionComponent implements OnInit, OnChanges {
           notFound: true,
           next: false
         });
+        this.isLoadMovie = false;
       }
     });
   }
@@ -104,12 +106,11 @@ export class QuestionComponent implements OnInit, OnChanges {
     });
   }
 
-
 }
 
 export interface Notification {
   msg: string;
   correct?: boolean;
   notFound: boolean;
-  next?: boolean
+  next?: boolean;
 }

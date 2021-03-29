@@ -6,12 +6,12 @@
     <mat-icon>report_problem</mat-icon>
     <span>questions</span>
   </button>
-  <button mat-menu-item disabled>
+  <button mat-menu-item disabled [routerLink]="'/game-over'">
     <mat-icon>voicemail</mat-icon>
-    <span>Check voice mail</span>
+    <span>Game Over</span>
   </button>
-  <button mat-menu-item>
-    <mat-icon>notifications_off</mat-icon>
-    <span>Disable alerts</span>
+  <button mat-menu-item [routerLink]="'/welcome'">
+    <mat-icon>home</mat-icon>
+    <span>Welcome</span>
   </button>
 </mat-menu>

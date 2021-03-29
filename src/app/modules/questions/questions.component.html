@@ -6,12 +6,15 @@
   </div>
 </div>
 <div class="scores">
-  <div class="score align-right">HIGH SCORE :</div>
-  <div class="score align-left">{{highScore}}</div>
+  <div class="score align-right">
+    <span matBadge="{{highScore}}" matBadgeSize="medium" matBadgeOverlap="false" matBadgeColor="accent">--HIGH SCORE--</span>
+  </div>
 </div>
 <div class="scores">
-  <div class="score align-right">CURRENT SCORE :</div>
-  <div class="score align-left">{{score}}</div>
+  <div class="score align-right">
+    <span matBadge="{{score}}" matBadgeSize="medium" matBadgeOverlap="false" matBadgeColor="primary">
+      --SCORE--</span>
+  </div>
 </div>
 <app-question [castingId]="castingId"
               [movieId]="movieId"
