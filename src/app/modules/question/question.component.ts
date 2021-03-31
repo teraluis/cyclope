@@ -14,17 +14,8 @@ export class QuestionComponent implements OnInit, OnChanges {
   @Input() movieId;
   @Input() castingId;
   @Output() notify: EventEmitter<Notification> = new EventEmitter<Notification>();
-  actor: Actor =  {
-    name: '',
-    img: '',
-    character: ''
-  };
-  movie: Movie = {
-    id: 0,
-    title: '',
-    img: '',
-    date: '',
-  };
+  actor: Actor;
+  movie: Movie;
 
   isLoadActor = false;
   isLoadMovie = false;

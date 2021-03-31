@@ -78,19 +78,30 @@ export class QuestionsComponent implements OnInit, OnDestroy {
     }
   }
 
+  executeRandsMovieId() {
+    if (Rand.pile(10)) {
+      this.movieId = Rand.randomMovieId();
+      this.castingId = this.movieId;
+    } else {
+      this.movieId = Rand.randomMovieId();
+      this.castingId = Rand.randomMovieId();
+    }
+    console.log(this.movieId);
+  }
+
   getLastMovie() {
     this._moviesService.getLastMovie().subscribe((movie) => {
       const randomLatest = Rand.getRandomInt(movie.id);
       console.log(randomLatest);
-      // After 1000 id their is to many hols in the database
-      this.latest = (randomLatest > 1000) ? 1000 : randomLatest;
+      const maxSize = 9000; // After maxSize id their is to many hols in the database
+      this.latest = (randomLatest > maxSize) ? maxSize : randomLatest;
     });
   }
 
   onNotify($event: Notification) {
     console.log($event.msg);
     if ($event.notFound) {
-      this.executeRands();
+      this.executeRandsMovieId();
     } else {
       if ($event.correct === this.getAnswer()) {
         ++this.score;
