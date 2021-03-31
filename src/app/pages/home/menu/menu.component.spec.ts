@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import {MenuStep} from '../../../core/menu';
 import { MenuComponent } from './menu.component';
+import {By} from '@angular/platform-browser';
+import {RouterLinkWithHref} from '@angular/router';
+import {MatMenu, MatMenuModule} from '@angular/material/menu';
 
 describe('MenuComponent', () => {
   let component: MenuComponent;
@@ -8,6 +12,7 @@ describe('MenuComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [MatMenuModule],
       declarations: [ MenuComponent ]
     })
     .compileComponents();
@@ -17,9 +22,5 @@ describe('MenuComponent', () => {
     fixture = TestBed.createComponent(MenuComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
   });
 });

@@ -9,15 +9,15 @@
     </div>
   </div>
   <div class="container">
-    <div>
-      <p class="question">Did <span style="color: blue">{{actor.name}}</span> play in <span style="color: blue">{{movie.title}}</span>?</p>
+    <div class="message">
+      <app-question-message [actor]="actor.name" [movie]="movie.title"></app-question-message>
     </div>
   </div>
   <div class="tag">
-    <div><button mat-raised-button color="warn"
-                 (click)="noAnswer()">NO</button></div>
-    <div><button mat-raised-button color="primary"
-                 (click)="yesAnswer()">YES</button></div>
+    <button style="display: block" mat-raised-button color="warn"
+                 (click)="noAnswer()">NO</button>
+    <button style="display: block" mat-raised-button color="primary"
+                 (click)="yesAnswer()">YES</button>
   </div>
 </div>
 

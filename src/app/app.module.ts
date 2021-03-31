@@ -58,6 +58,9 @@ import { QuestionComponent } from './modules/question/question.component';
 import { ActorComponent } from './modules/actor/actor.component';
 import { MovieComponent } from './modules/movie/movie.component';
 import {HttpClientModule} from '@angular/common/http';
+import { QuestionMessageComponent } from './modules/question-message/question-message.component';
+import {MoviesService} from './services/backend/movies.service';
+import {ActorsService} from './services/backend/actors.service';
 
 @NgModule({
   declarations: [
@@ -70,7 +73,8 @@ import {HttpClientModule} from '@angular/common/http';
     QuestionsComponent,
     QuestionComponent,
     ActorComponent,
-    MovieComponent
+    MovieComponent,
+    QuestionMessageComponent
   ],
   imports: [
     BrowserModule,
@@ -121,7 +125,7 @@ import {HttpClientModule} from '@angular/common/http';
     ReactiveFormsModule,
     OverlayModule
   ],
-  providers: [],
+  providers: [MoviesService, ActorsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

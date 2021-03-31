@@ -6,7 +6,7 @@ import {Subject} from 'rxjs';
 })
 export class ScoreService {
 
-  score = 0;
+  score = -1;
   scoreSubject = new Subject<number>();
 
   constructor() { }

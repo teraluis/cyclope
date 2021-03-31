@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {MenuStep} from '../../core/menu';
 import {Subscription} from 'rxjs';
 import {ScoreService} from '../../services/front/score.service';
+import {MoviesService} from '../../services/backend/movies.service';
 @Component({
   selector: 'app-questions',
   templateUrl: './questions.component.html',
@@ -20,11 +21,12 @@ export class QuestionsComponent implements OnInit, OnDestroy {
   movieId: number;
   castingId: number;
   question: number;
+  latest = 700;
   private _totalSecondes = 0;
   private _timer;
   scoreSubscription: Subscription;
 
-  constructor(private router: Router, public scoreService: ScoreService) { }
+  constructor(private router: Router, public scoreService: ScoreService, public movieService: MoviesService) { }
 
   ngOnInit(): void {
     this.scoreSubscription = this.scoreService.scoreSubject.subscribe( (score) => {
@@ -48,12 +50,17 @@ export class QuestionsComponent implements OnInit, OnDestroy {
   stop() {
     if (this._totalSecondes >= this.maxSec) {
       clearInterval(this._timer);
-      if (this.score > this.highScore) {
-        localStorage.setItem('highScore', String(this.score));
-      }
+      this.updateHighScore();
       this.scoreService.setScore(this.score);
       this.router.navigate([MenuStep.GAME_OVER]);
     }
+  }
+
+  updateHighScore(): boolean {
+    if (this.score > this.highScore) {
+      localStorage.setItem('highScore', String(this.score));
+    }
+    return (this.score > this.highScore);
   }
 
   initScore() {
@@ -67,11 +74,11 @@ export class QuestionsComponent implements OnInit, OnDestroy {
 
   executeRands() {
     if (Rand.pile(100)) {
-      this.movieId = Rand.getRandomInt(300);
+      this.movieId = Rand.getRandomInt(this.latest);
       this.castingId = this.movieId;
     } else {
-      this.movieId = Rand.getRandomInt(300);
-      this.castingId = Rand.getRandomInt(300);
+      this.movieId = Rand.getRandomInt(this.latest);
+      this.castingId = Rand.getRandomInt(this.latest);
     }
   }
 
@@ -94,6 +101,6 @@ export class QuestionsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    //this.scoreSubscription.unsubscribe();
+    this.scoreSubscription.unsubscribe();
   }
 }

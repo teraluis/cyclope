@@ -30,4 +30,12 @@ export class MoviesService {
         return of(null);
       }));
   }
+
+  getLastMovie(): Observable<Movie> {
+    return this.http.get<Movie>(this._baseUrl + '/api/movies/latest')
+      .pipe(map((resp) => resp), catchError((error: HttpErrorResponse) => {
+        alert(this.utilitiesService.handleError(error));
+        return of(null);
+      }));
+  }
 }

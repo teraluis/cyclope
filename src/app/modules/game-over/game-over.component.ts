@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MenuStep} from '../../core/menu';
 import {Router} from '@angular/router';
 import {ScoreService} from '../../services/front/score.service';
@@ -9,7 +9,7 @@ import {Subscription} from 'rxjs';
   templateUrl: './game-over.component.html',
   styleUrls: ['./game-over.component.scss']
 })
-export class GameOverComponent implements OnInit {
+export class GameOverComponent implements OnInit, OnDestroy {
   score = 0;
   highScore = localStorage.getItem('highScore');
   scoreIsLoad = false;
@@ -20,6 +20,7 @@ export class GameOverComponent implements OnInit {
     this.scoreSubscription = this.scoreService.scoreSubject.subscribe( (score) => {
       this.score = score;
       this.scoreIsLoad = true;
+      this.redirect();
     });
     this.scoreService.emitScoreSubject();
   }
@@ -30,10 +31,19 @@ export class GameOverComponent implements OnInit {
 
   getMessage(): string {
     if (this.score > parseInt(this.highScore, 10)) {
-      return 'congratulations you beat your score';
+      return 'Congratulations you beat your score';
     } else {
       return 'Thanks for your participation';
     }
   }
 
+  redirect() {
+    if (this.score === -1) {
+      this._router.navigate([MenuStep.HOME]);
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.scoreSubscription.unsubscribe();
+  }
 }

@@ -29,12 +29,15 @@ export class QuestionComponent implements OnInit, OnChanges {
   isLoadActor = false;
   isLoadMovie = false;
   nullImg = 'https://image.tmdb.org/t/p/w500/null';
+
   constructor(private _actorsService: ActorsService, private _moviesService: MoviesService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!changes.movieId.firstChange) {
-      this.initCasting();
       this.initMovie();
+    }
+    if (!changes.castingId.firstChange) {
+      this.initCasting();
     }
   }
 

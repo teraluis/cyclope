@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {MenuStep} from '../../core/menu';
+import {MoviesService} from '../../services/backend/movies.service';
+import {Movie} from '../../core/Movie';
 
 @Component({
   selector: 'app-welcome',
@@ -9,15 +11,18 @@ import {MenuStep} from '../../core/menu';
 })
 export class WelcomeComponent implements OnInit {
 
-  @Input() name = 'cyclope';
-  time = 60;
-  constructor(private router: Router) { }
+  name = 'cyclope';
+  constructor(private _router: Router) { }
 
   ngOnInit(): void {
   }
 
   start() {
-    this.router.navigate([MenuStep.QUESTIONS]);
+    this._router.navigate([MenuStep.QUESTIONS]);
+  }
+
+  welcomeMessage(appName: string): string {
+    return `Welcome to the ${appName} quizz`;
   }
 
 }

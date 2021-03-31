@@ -1,6 +1,6 @@
 
 export enum MenuStep {
-  HOME = '/home',
+  HOME = '/welcome',
   QUESTIONS = '/questions',
   GAME_OVER = '/game-over',
   EMPTY = ''
