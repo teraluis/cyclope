@@ -34,16 +34,4 @@ describe('When the game is over', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should update new high score when score > high score', () => {
-    component.highScore = 4;
-    component.score = 10;
-    expect(component.updateHighScore()).toBe(true);
-  });
-
-  it('should not update high score when score <= high score', () => {
-    component.highScore = 4;
-    component.score = 1;
-    expect(component.updateHighScore()).toBe(false);
-  });
 });

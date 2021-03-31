@@ -55,7 +55,7 @@ export class QuestionComponent implements OnInit, OnChanges {
         this.actor = castingWithImages[actorPosition];
         this.isLoadActor = true;
         this.notify.emit( {
-          msg: 'movie found',
+          msg: 'actor found',
           notFound: false,
           next: false
         });

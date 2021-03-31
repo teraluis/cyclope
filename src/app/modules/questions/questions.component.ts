@@ -21,12 +21,12 @@ export class QuestionsComponent implements OnInit, OnDestroy {
   movieId: number;
   castingId: number;
   question: number;
-  latest = 700;
+  latest = 500;
   private _totalSecondes = 0;
   private _timer;
   scoreSubscription: Subscription;
 
-  constructor(private router: Router, public scoreService: ScoreService, public movieService: MoviesService) { }
+  constructor(private router: Router, public scoreService: ScoreService, public _moviesService: MoviesService) { }
 
   ngOnInit(): void {
     this.scoreSubscription = this.scoreService.scoreSubject.subscribe( (score) => {
@@ -36,6 +36,7 @@ export class QuestionsComponent implements OnInit, OnDestroy {
     this.initScore();
     this.startChronometer();
     this.executeRands();
+    this.getLastMovie();
     this.question = 1;
   }
 
@@ -50,21 +51,16 @@ export class QuestionsComponent implements OnInit, OnDestroy {
   stop() {
     if (this._totalSecondes >= this.maxSec) {
       clearInterval(this._timer);
-      this.updateHighScore();
       this.scoreService.setScore(this.score);
       this.router.navigate([MenuStep.GAME_OVER]);
     }
   }
 
-  updateHighScore(): boolean {
-    if (this.score > this.highScore) {
-      localStorage.setItem('highScore', String(this.score));
-    }
-    return (this.score > this.highScore);
-  }
+
 
   initScore() {
     if (localStorage.getItem('highScore') === null) {
+      localStorage.setItem('highScore', '0');
       this.highScore = 0;
     } else {
       this.highScore = parseInt(localStorage.getItem('highScore'), 10);
@@ -73,7 +69,7 @@ export class QuestionsComponent implements OnInit, OnDestroy {
   }
 
   executeRands() {
-    if (Rand.pile(100)) {
+    if (Rand.pile(10)) {
       this.movieId = Rand.getRandomInt(this.latest);
       this.castingId = this.movieId;
     } else {
@@ -82,7 +78,17 @@ export class QuestionsComponent implements OnInit, OnDestroy {
     }
   }
 
+  getLastMovie() {
+    this._moviesService.getLastMovie().subscribe((movie) => {
+      const randomLatest = Rand.getRandomInt(movie.id);
+      console.log(randomLatest);
+      // After 1000 id their is to many hols in the database
+      this.latest = (randomLatest > 1000) ? 1000 : randomLatest;
+    });
+  }
+
   onNotify($event: Notification) {
+    console.log($event.msg);
     if ($event.notFound) {
       this.executeRands();
     } else {

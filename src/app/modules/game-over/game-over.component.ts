@@ -14,12 +14,14 @@ export class GameOverComponent implements OnInit, OnDestroy {
   highScore = localStorage.getItem('highScore');
   scoreIsLoad = false;
   scoreSubscription: Subscription;
+  highScoreBeated = false;
   constructor(private _router: Router, public scoreService: ScoreService) { }
 
   ngOnInit(): void {
     this.scoreSubscription = this.scoreService.scoreSubject.subscribe( (score) => {
       this.score = score;
       this.scoreIsLoad = true;
+      this.updateHighScore();
       this.redirect();
     });
     this.scoreService.emitScoreSubject();
@@ -30,10 +32,10 @@ export class GameOverComponent implements OnInit, OnDestroy {
   }
 
   getMessage(): string {
-    if (this.score > parseInt(this.highScore, 10)) {
-      return 'Congratulations you beat your score';
+    if (this.highScoreBeated) {
+      return 'Congratulations you beat your high score';
     } else {
-      return 'Thanks for your participation';
+      return 'Thanks for your contribution';
     }
   }
 
@@ -41,6 +43,14 @@ export class GameOverComponent implements OnInit, OnDestroy {
     if (this.score === -1) {
       this._router.navigate([MenuStep.HOME]);
     }
+  }
+
+  updateHighScore(): boolean {
+    if (this.score > parseInt(this.highScore, 10)) {
+      this.highScoreBeated = true;
+      localStorage.setItem('highScore', String(this.score));
+    }
+    return (this.score > parseInt(this.highScore, 10));
   }
 
   ngOnDestroy(): void {

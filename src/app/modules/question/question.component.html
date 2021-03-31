@@ -20,4 +20,7 @@
                  (click)="yesAnswer()">YES</button>
   </div>
 </div>
+<div class="container" *ngIf="!isLoadActor || !isLoadMovie">
+  <mat-spinner></mat-spinner>
+</div>
 
