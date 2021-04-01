@@ -61,6 +61,8 @@ import {HttpClientModule} from '@angular/common/http';
 import { QuestionMessageComponent } from './modules/question-message/question-message.component';
 import {MoviesService} from './services/backend/movies.service';
 import {ActorsService} from './services/backend/actors.service';
+import { ImageComponent } from './modules/image/image.component';
+import { ChronometreComponent } from './modules/chronometre/chronometre.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +76,9 @@ import {ActorsService} from './services/backend/actors.service';
     QuestionComponent,
     ActorComponent,
     MovieComponent,
-    QuestionMessageComponent
+    QuestionMessageComponent,
+    ImageComponent,
+    ChronometreComponent
   ],
   imports: [
     BrowserModule,

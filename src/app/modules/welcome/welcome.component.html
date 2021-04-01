@@ -7,7 +7,7 @@
       allowed time ! Good luck !
     </p>
     <p><b>Time Allowed: 60 seconds</b></p>
-    <button mat-raised-button color="accent"
+    <button *ngIf="latestLoad" mat-raised-button color="accent"
             (click)="start()"
             style="width: 100%">Start the Quizz</button>
   </mat-card>

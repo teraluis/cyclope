@@ -1,10 +1,4 @@
-<div class="chronometers">
-  <div class="chronometer">
-    <span *ngIf="minutes > 0">Minutes {{minutes}} :</span>
-    <span *ngIf="minutes === 0">Time: </span>
-    {{seconders}}
-  </div>
-</div>
+<app-chronometre [max]="60" (expiration)="chronometer($event)"></app-chronometre>
 <div class="scores">
   <div class="score align-right">
     <span matBadge="{{highScore}}" matBadgeSize="medium" matBadgeOverlap="false" matBadgeColor="accent">--HIGH SCORE--</span>
@@ -19,6 +13,6 @@
 <app-question [castingId]="castingId"
               [movieId]="movieId"
               [count]="question"
-              (notify)="onNotify($event)"
+              (notify)="movie($event)"
 ></app-question>
 

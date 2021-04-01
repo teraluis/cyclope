@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {MenuStep} from '../../core/menu';
 import {MoviesService} from '../../services/backend/movies.service';
 import {Movie} from '../../core/Movie';
+import {Rand} from '../../core/Rand';
 
 @Component({
   selector: 'app-welcome',
@@ -12,9 +13,11 @@ import {Movie} from '../../core/Movie';
 export class WelcomeComponent implements OnInit {
 
   name = 'cyclope';
-  constructor(private _router: Router) { }
+  latestLoad = false;
+  constructor(private _router: Router, public movieService: MoviesService) { }
 
   ngOnInit(): void {
+    this.getLastMovie();
   }
 
   start() {
@@ -25,4 +28,10 @@ export class WelcomeComponent implements OnInit {
     return `Welcome to the ${appName} quizz`;
   }
 
+  getLastMovie() {
+    this.movieService.getLastMovie().subscribe((movie) => {
+      localStorage.setItem('latest', String(movie.id));
+      this.latestLoad = true;
+    });
+  }
 }

@@ -40,15 +40,27 @@ export class MoviesService {
   }
 
   addMovie(movie: Movie): Observable<Movie> {
-    console.log(movie);
     return this.http.post<Movie>(this._baseUrl + '/intern/movies/movie', {
       id: movie.id,
       title: movie.title,
       image: movie.img
     } )
       .pipe(map((resp) => resp), catchError((error: HttpErrorResponse) => {
-        alert(this.utilitiesService.handleError(error));
+        console.log(error);
         return of(null);
       }));
   }
+
+  getAllMovies(): Observable<any> {
+    return this.http.get(this._baseUrl + '/intern/movies')
+      .pipe(map((resp: Movies) => resp), catchError((error: HttpErrorResponse) => {
+        console.log(this.utilitiesService.handleError(error));
+        return of(null);
+      }));
+  }
+}
+
+export interface Movies {
+  count: number;
+  movies: Movie[];
 }

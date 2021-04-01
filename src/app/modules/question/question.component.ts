@@ -25,14 +25,11 @@ export class QuestionComponent implements OnInit, OnChanges {
   constructor(private _actorsService: ActorsService, private _moviesService: MoviesService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    setTimeout(() => {
-      if (!changes.movieId.firstChange) {
-        this.initMovie();
-      }
-      if (!changes.castingId.firstChange) {
-        this.initCasting();
-      }
-    }, 2);
+    console.log(changes);
+    if (!changes.movieId.isFirstChange() && !changes.castingId.isFirstChange()) {
+      this.initMovie();
+      this.initCasting();
+    }
   }
 
   ngOnInit(): void {
@@ -61,21 +58,22 @@ export class QuestionComponent implements OnInit, OnChanges {
         });
         this.isLoadActor = false;
       }
-    });
+    }, (error) => console.log(error));
   }
 
   initMovie() {
-    this._moviesService.getMovieById(this.movieId).subscribe((movie) => {
+    this._moviesService.getMovieById(this.movieId).subscribe((movie: Movie) => {
       if (movie.img !== this.nullImg && movie.img !== undefined) {
         this.movie = movie;
+        this._moviesService.addMovie(movie).subscribe((resp) => console.log(resp));
         this.isLoadMovie = true;
         this.notify.emit( {
           msg: 'movie found',
           notFound: false,
-          next: false
+          next: false,
+          movie: this.movie
         });
       } else {
-        console.log(movie.msg);
         this.notify.emit( {
           msg: 'movie not found',
           notFound: true,
@@ -83,7 +81,7 @@ export class QuestionComponent implements OnInit, OnChanges {
         });
         this.isLoadMovie = false;
       }
-    });
+    }, (error) => console.log(error));
   }
 
   yesAnswer() {
@@ -113,4 +111,5 @@ export interface Notification {
   correct?: boolean;
   notFound: boolean;
   next?: boolean;
+  movie?: Movie;
 }

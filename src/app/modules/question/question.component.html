@@ -1,18 +1,16 @@
 <h1>Question {{count}}</h1>
-<div *ngIf="isLoadActor && isLoadMovie">
+<div *ngIf="actor && movie">
   <div class="container">
     <div class="actor">
-      <img class="img" *ngIf="actor" src="{{actor?.img}}" alt="{{actor?.name}}" title="actor">
-      <div *ngIf="!actor" class="notFound"></div>
+      <app-image *ngIf="isLoadActor" [img]="actor.img" [title]="actor.name" [alt]="actor.name"></app-image>
     </div>
     <div class="movie">
-      <img class="img" *ngIf="movie" src="{{movie?.img}}" alt="{{movie?.title}}" title="movie">
-      <div *ngIf="!movie" class="notFound"></div>
+      <app-image *ngIf="isLoadMovie" [img]="movie.img" [title]="movie.title" [alt]="movie.title"></app-image>
     </div>
   </div>
   <div class="container">
     <div class="message">
-      <app-question-message [actor]="actor.name" [movie]="movie.title"></app-question-message>
+      <app-question-message *ngIf="isLoadMovie && isLoadActor" [actor]="actor.name" [movie]="movie.title"></app-question-message>
     </div>
   </div>
   <div class="tag">
@@ -22,7 +20,7 @@
                  (click)="yesAnswer()">YES</button>
   </div>
 </div>
-<div class="container" *ngIf="!isLoadActor || !isLoadMovie">
+<div class="container" *ngIf="!actor || !movie">
   <mat-spinner [diameter]="500"></mat-spinner>
 </div>
 

@@ -11,41 +11,20 @@
 .align-right {
   text-align: right;
 }
-$imgWidth: 300px;
-$imgHeight: auto;
-.img {
-  width: $imgWidth;
-  height: $imgHeight;
-  border-radius: 10px;
-  box-shadow: -11px 4px 29px 0px rgba(54,105,210,0.75);
-  -webkit-box-shadow: -11px 4px 29px 0px rgba(54,105,210,0.75);
-  -moz-box-shadow: -11px 4px 29px 0px rgba(54,105,210,0.75);
-}
 
-.notFound {
-  background-image: url("../../../assets/image-not-found.jpeg");
-  width: $imgWidth;
-  height: 450px;
-  border-radius: 10px;
-  background-size: cover;
-  background-position: center;
-}
-.question {
-  font-family: Arial, sans-serif;
-  font-size: 3em;
-  color: gray;
-}
 .tag {
   display: flex;
   column-gap: 10%;
   justify-content: center;
   margin: 0.5% 10%;
 }
-$padingButton: 70px;
+
+$paddingButton: 70px;
+
 button {
   letter-spacing: 6px;
-  padding-right: $padingButton;
-  padding-left: $padingButton;
+  padding-right: $paddingButton;
+  padding-left: $paddingButton;
 }
 
 h1 {

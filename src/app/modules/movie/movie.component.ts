@@ -20,14 +20,13 @@ export class MovieComponent implements OnInit {
     this.id = Rand.getRandomInt(10000);
     console.log(this.id);
     /*
-      we could put a setInterval to hydrate the database randomly but is not specified
-      in the project if we are allowed to do that.
+      we could put a setInterval to hydrate the database randomly
      */
-    this.addMovieMergeMap();
+    this.addMovieMergeMap(this.id);
   }
 
-  addMovieMergeMap() {
-    this._movieService.getMovieById(this.id)
+  addMovieMergeMap(id: number) {
+    this._movieService.getMovieById(id)
       .pipe(mergeMap((movie: Movie) => this._movieService.addMovie(movie)))
       .subscribe(resp => {
         console.log(resp);
