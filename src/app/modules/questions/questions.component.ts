@@ -20,8 +20,8 @@ export class QuestionsComponent implements OnInit, OnDestroy {
   maxSec = 60;
   movieId: number;
   castingId: number;
-  question: number;
-  latest = 500;
+  question = 1;
+  latest = 1000;
   private _totalSecondes = 0;
   private _timer;
   scoreSubscription: Subscription;
@@ -35,9 +35,8 @@ export class QuestionsComponent implements OnInit, OnDestroy {
     this.scoreService.emitScoreSubject();
     this.initScore();
     this.startChronometer();
-    this.executeRands();
-    this.getLastMovie();
-    this.question = 1;
+    this.initLatest();
+    this.executeRandsMovieId(false);
   }
 
   startChronometer() {
@@ -56,8 +55,6 @@ export class QuestionsComponent implements OnInit, OnDestroy {
     }
   }
 
-
-
   initScore() {
     if (localStorage.getItem('highScore') === null) {
       localStorage.setItem('highScore', '0');
@@ -68,47 +65,48 @@ export class QuestionsComponent implements OnInit, OnDestroy {
     this.score = 0;
   }
 
-  executeRands() {
+  initLatest() {
+    if (localStorage.getItem('latest') === null) {
+      this.getLastMovie();
+    } else {
+      this.latest = parseInt(localStorage.getItem('latest'), 10);
+    }
+  }
+  executeRandsMovieId(theMDB?: boolean) {
     if (Rand.pile(10)) {
-      this.movieId = Rand.getRandomInt(this.latest);
+      this.movieId = this.getRandomId(theMDB);
       this.castingId = this.movieId;
     } else {
-      this.movieId = Rand.getRandomInt(this.latest);
-      this.castingId = Rand.getRandomInt(this.latest);
+      this.movieId = this.getRandomId(theMDB);
+      this.castingId = this.getRandomId(theMDB);
     }
   }
 
-  executeRandsMovieId() {
-    if (Rand.pile(10)) {
-      this.movieId = Rand.randomMovieId();
-      this.castingId = this.movieId;
-    } else {
-      this.movieId = Rand.randomMovieId();
-      this.castingId = Rand.randomMovieId();
-    }
-    console.log(this.movieId);
+  getRandomId(theMDB: boolean): number {
+    return (theMDB) ? Rand.getRandomInt(this.latest) : Rand.randomMovieId();
   }
 
   getLastMovie() {
+    console.log('getLastMovie');
     this._moviesService.getLastMovie().subscribe((movie) => {
-      const randomLatest = Rand.getRandomInt(movie.id);
-      console.log(randomLatest);
-      const maxSize = 9000; // After maxSize id their is to many hols in the database
-      this.latest = (randomLatest > maxSize) ? maxSize : randomLatest;
+      this.latest = Rand.getRandomInt(movie.id);
+      localStorage.setItem('latest', String(this.latest));
     });
   }
 
   onNotify($event: Notification) {
-    console.log($event.msg);
     if ($event.notFound) {
-      this.executeRandsMovieId();
+      console.log($event.msg);
+    }
+    if ($event.notFound) {
+      this.executeRandsMovieId(false);
     } else {
       if ($event.correct === this.getAnswer()) {
         ++this.score;
       }
       if ($event.next) {
         ++this.question;
-        this.executeRands();
+        this.executeRandsMovieId(true);
       }
     }
   }

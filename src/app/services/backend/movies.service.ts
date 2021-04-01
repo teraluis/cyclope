@@ -38,4 +38,17 @@ export class MoviesService {
         return of(null);
       }));
   }
+
+  addMovie(movie: Movie): Observable<Movie> {
+    console.log(movie);
+    return this.http.post<Movie>(this._baseUrl + '/intern/movies/movie', {
+      id: movie.id,
+      title: movie.title,
+      image: movie.img
+    } )
+      .pipe(map((resp) => resp), catchError((error: HttpErrorResponse) => {
+        alert(this.utilitiesService.handleError(error));
+        return of(null);
+      }));
+  }
 }

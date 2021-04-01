@@ -5,6 +5,7 @@ import {WelcomeComponent} from './modules/welcome/welcome.component';
 import {QuestionsComponent} from './modules/questions/questions.component';
 import {GameOverComponent} from './modules/game-over/game-over.component';
 import {NotfoundComponent} from './pages/notfound/notfound.component';
+import {MovieComponent} from './modules/movie/movie.component';
 
 
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
       {path: 'welcome', component: WelcomeComponent},
       {path: 'questions', component: QuestionsComponent},
       {path: 'game-over', component: GameOverComponent},
+      {path: 'add-movie', component: MovieComponent}
     ]
   },
   {path: 'not-found', component: NotfoundComponent},

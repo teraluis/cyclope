@@ -2,10 +2,12 @@
 <div *ngIf="isLoadActor && isLoadMovie">
   <div class="container">
     <div class="actor">
-      <img class="img" src="{{actor.img}}" >
+      <img class="img" *ngIf="actor" src="{{actor?.img}}" alt="{{actor?.name}}" title="actor">
+      <div *ngIf="!actor" class="notFound"></div>
     </div>
     <div class="movie">
-      <img class="img" src="{{movie.img}}">
+      <img class="img" *ngIf="movie" src="{{movie?.img}}" alt="{{movie?.title}}" title="movie">
+      <div *ngIf="!movie" class="notFound"></div>
     </div>
   </div>
   <div class="container">
@@ -21,6 +23,6 @@
   </div>
 </div>
 <div class="container" *ngIf="!isLoadActor || !isLoadMovie">
-  <mat-spinner></mat-spinner>
+  <mat-spinner [diameter]="500"></mat-spinner>
 </div>
 

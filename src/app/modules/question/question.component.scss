@@ -11,16 +11,25 @@
 .align-right {
   text-align: right;
 }
-
+$imgWidth: 300px;
+$imgHeight: auto;
 .img {
-  max-width: 300px;
-  height: auto;
+  width: $imgWidth;
+  height: $imgHeight;
   border-radius: 10px;
   box-shadow: -11px 4px 29px 0px rgba(54,105,210,0.75);
   -webkit-box-shadow: -11px 4px 29px 0px rgba(54,105,210,0.75);
   -moz-box-shadow: -11px 4px 29px 0px rgba(54,105,210,0.75);
 }
 
+.notFound {
+  background-image: url("../../../assets/image-not-found.jpeg");
+  width: $imgWidth;
+  height: 450px;
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center;
+}
 .question {
   font-family: Arial, sans-serif;
   font-size: 3em;
@@ -46,3 +55,5 @@ h1 {
   letter-spacing: 2px;
   font-family: Arial, sans-serif;
 }
+
+

@@ -4,6 +4,7 @@ import {Movie} from '../../core/Movie';
 import {ActorsService} from '../../services/backend/actors.service';
 import {MoviesService} from '../../services/backend/movies.service';
 import {Rand} from '../../core/Rand';
+import {timeout} from 'rxjs/operators';
 @Component({
   selector: 'app-question',
   templateUrl: './question.component.html',
@@ -24,12 +25,14 @@ export class QuestionComponent implements OnInit, OnChanges {
   constructor(private _actorsService: ActorsService, private _moviesService: MoviesService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!changes.movieId.firstChange) {
-      this.initMovie();
-    }
-    if (!changes.castingId.firstChange) {
-      this.initCasting();
-    }
+    setTimeout(() => {
+      if (!changes.movieId.firstChange) {
+        this.initMovie();
+      }
+      if (!changes.castingId.firstChange) {
+        this.initCasting();
+      }
+    }, 2);
   }
 
   ngOnInit(): void {
@@ -72,6 +75,7 @@ export class QuestionComponent implements OnInit, OnChanges {
           next: false
         });
       } else {
+        console.log(movie.msg);
         this.notify.emit( {
           msg: 'movie not found',
           notFound: true,
@@ -89,6 +93,7 @@ export class QuestionComponent implements OnInit, OnChanges {
       correct: true,
       next: true
     });
+    this.isLoadMovie = false;
   }
 
   noAnswer() {
@@ -98,6 +103,7 @@ export class QuestionComponent implements OnInit, OnChanges {
       correct: false,
       next: true
     });
+    this.isLoadMovie = false;
   }
 
 }
