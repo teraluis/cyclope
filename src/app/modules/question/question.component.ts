@@ -31,7 +31,7 @@ export class QuestionComponent implements OnInit, OnChanges {
     }
     if (!changes.castingId?.isFirstChange() && changes.castingId?.currentValue !== changes.castingId?.previousValue) {
       this.initCasting();
-      this.movieId = 10; // avoids to handle an undefined movie id
+      this.movieId = 11; // avoids to handle an undefined movie id
     }
   }
 
@@ -69,7 +69,7 @@ export class QuestionComponent implements OnInit, OnChanges {
     this._moviesService.getMovieById(this.movieId).subscribe((movie: Movie) => {
       if (movie.img !== this.nullImg && movie.img !== undefined) {
         this.movie = movie;
-        this._moviesService.addMovie(movie).subscribe((resp) => console.log(resp));
+        this._moviesService.addMovie(movie);
         this.isLoadMovie = true;
         this.notify.emit( {
           msg: 'movie found',

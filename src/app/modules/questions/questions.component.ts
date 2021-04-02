@@ -6,9 +6,8 @@ import {MenuStep} from '../../core/menu';
 import {Subscription} from 'rxjs';
 import {ScoreService} from '../../services/front/score.service';
 import {Movies, MoviesService} from '../../services/backend/movies.service';
-import {mergeMap} from 'rxjs/operators';
 import {Movie} from '../../core/Movie';
-import {J} from '@angular/cdk/keycodes';
+import {StorageHelper} from '../../helper/StorageHelper';
 @Component({
   selector: 'app-questions',
   templateUrl: './questions.component.html',
@@ -16,25 +15,24 @@ import {J} from '@angular/cdk/keycodes';
 })
 export class QuestionsComponent implements OnInit, OnDestroy {
 
+  scoreSubscription: Subscription;
   highScore: number;
-  score: number;
+  score = 0;
   movieId: number;
   castingId: number;
   question = 1;
-  latest = 1000;
+  latest: number;
   intern = new Rand();
-  scoreSubscription: Subscription;
+  dbCount: number;
 
-  constructor(private router: Router,
-              public scoreService: ScoreService,
-              public movieService: MoviesService) { }
+  constructor(private router: Router, public scoreService: ScoreService, public movieService: MoviesService) {}
 
   ngOnInit(): void {
     this.scoreWatcher();
-    this.initScore();
-    this.initLatest();
-    this.executeRandsMovieId(false);
-    this.loadMoviesFromDB();
+    this.latest = StorageHelper.initStorage('latest', 1000);
+    this.highScore = StorageHelper.initStorage('highScore', 0);
+    this.dbCount = StorageHelper.initStorage('dbCount', 10);
+    this.loadMoviesFromDB(this.dbCount);
   }
 
   scoreWatcher() {
@@ -78,28 +76,13 @@ export class QuestionsComponent implements OnInit, OnDestroy {
     }
   }
 
-  initScore() {
-    if (localStorage.getItem('highScore') === null) {
-      localStorage.setItem('highScore', '0');
-      this.highScore = 0;
-    } else {
-      this.highScore = parseInt(localStorage.getItem('highScore'), 10);
-    }
-    this.score = 0;
-  }
-
-  initLatest() {
-    if (localStorage.getItem('latest') !== null) {
-      this.latest = parseInt(localStorage.getItem('latest'), 10);
-    }
-  }
-
-  loadMoviesFromDB() {
-    this.movieService.getAllMovies().subscribe((resp: Movies) => {
+  loadMoviesFromDB(limit: number) {
+    this.movieService.getAllMovies(0, limit).subscribe((resp: Movies) => {
       const movies: Movie[] = resp.movies;
       movies.forEach(movie => {
         this.intern.addMovieId(movie.id);
       });
+      this.executeRandsMovieId(false);
     });
   }
 

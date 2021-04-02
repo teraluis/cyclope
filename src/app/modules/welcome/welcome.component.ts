@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {MenuStep} from '../../core/menu';
-import {MoviesService} from '../../services/backend/movies.service';
+import {Movies, MoviesService} from '../../services/backend/movies.service';
 import {Movie} from '../../core/Movie';
 import {Rand} from '../../core/Rand';
 
@@ -13,11 +13,13 @@ import {Rand} from '../../core/Rand';
 export class WelcomeComponent implements OnInit {
 
   name = 'cyclope';
-  latestLoad = false;
+  latest = false;
+  intern = false
   constructor(private _router: Router, public movieService: MoviesService) { }
 
   ngOnInit(): void {
     this.getLastMovie();
+    this.getLastMovieFromDB();
   }
 
   start() {
@@ -31,7 +33,14 @@ export class WelcomeComponent implements OnInit {
   getLastMovie() {
     this.movieService.getLastMovie().subscribe((movie: Movie) => {
       localStorage.setItem('latest', String(movie.id));
-      this.latestLoad = true;
+      this.latest = true;
+    });
+  }
+
+  getLastMovieFromDB() {
+    this.movieService.getAllMovies().subscribe((movies: Movies) => {
+      localStorage.setItem('dbCount', String(movies.count));
+      this.intern = true;
     });
   }
 }

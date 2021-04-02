@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {environment} from '../../../environments/environment';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {Movie} from '../../core/Movie';
 import {catchError, map} from 'rxjs/operators';
 import {UtilitiesService} from './utilities.service';
@@ -51,9 +51,11 @@ export class MoviesService {
       }));
   }
 
-  getAllMovies(): Observable<Movies> {
-    return this.http.get(this._baseUrl + '/intern/movies')
-      .pipe(map((resp: Movies) => resp), catchError((error: HttpErrorResponse) => {
+  getAllMovies(from = 0, limit = 10): Observable<Movies> {
+    const httpParams = new HttpParams().set('from', String(from)).set('limit', String(limit));
+    return this.http.get(this._baseUrl + '/intern/movies', {
+      params: httpParams
+    }).pipe(map((resp: Movies) => resp), catchError((error: HttpErrorResponse) => {
         console.log(this.utilitiesService.handleError(error));
         return of(null);
       }));
