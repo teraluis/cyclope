@@ -6,6 +6,7 @@ import {QuestionsComponent} from './modules/questions/questions.component';
 import {GameOverComponent} from './modules/game-over/game-over.component';
 import {NotfoundComponent} from './pages/notfound/notfound.component';
 import {MovieComponent} from './modules/movie/movie.component';
+import {ImageComponent} from './modules/image/image.component';
 
 
 const routes: Routes = [

@@ -2,7 +2,7 @@ $imgWidth: 300px;
 $imgHeight: auto;
 .img {
   width: $imgWidth;
-  height: $imgHeight;
+  max-height: 450px;
   border-radius: 10px;
   box-shadow: -11px 4px 29px 0px rgba(54,105,210,0.75);
   -webkit-box-shadow: -11px 4px 29px 0px rgba(54,105,210,0.75);
