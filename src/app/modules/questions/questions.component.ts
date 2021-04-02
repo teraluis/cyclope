@@ -46,7 +46,7 @@ export class QuestionsComponent implements OnInit, OnDestroy {
 
   movie($event: Notification) {
     if ($event.notFound) {
-      this.executeRandsMovieId(false);
+      this.notFound($event.msg);
     } else {
       if ($event.correct === this.getAnswer()) {
         ++this.score;
@@ -55,6 +55,19 @@ export class QuestionsComponent implements OnInit, OnDestroy {
         ++this.question;
         this.executeRandsMovieId(true);
       }
+    }
+  }
+
+  notFound(message: string) {
+    switch (message) {
+      case 'movie not found':
+        this.movieId = this.getRandomId(false);
+        break;
+      case 'actor not found':
+        this.castingId = this.getRandomId(false);
+        break;
+      default:
+        this.executeRandsMovieId(false);
     }
   }
 

@@ -25,9 +25,10 @@ export class QuestionComponent implements OnInit, OnChanges {
   constructor(private _actorsService: ActorsService, private _moviesService: MoviesService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
-    if (!changes.movieId.isFirstChange() && !changes.castingId.isFirstChange()) {
+    if (!changes.movieId?.isFirstChange() && changes.movieId?.currentValue !== changes.movieId?.previousValue) {
       this.initMovie();
+    }
+    if (!changes.castingId?.isFirstChange() && changes.castingId?.currentValue !== changes.castingId?.previousValue) {
       this.initCasting();
     }
   }

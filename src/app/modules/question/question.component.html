@@ -10,7 +10,7 @@
   </div>
   <div class="container">
     <div class="message">
-      <app-question-message *ngIf="isLoadMovie && isLoadActor" [actor]="actor.name" [movie]="movie.title"></app-question-message>
+      <app-question-message *ngIf="isLoadMovie && isLoadActor" [actor]="actor?.name" [movie]="movie?.title"></app-question-message>
     </div>
   </div>
   <div class="tag">
