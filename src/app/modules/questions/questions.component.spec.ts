@@ -1,37 +1,43 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { QuestionsComponent } from './questions.component';
 import {Router} from '@angular/router';
-import {HttpClient} from '@angular/common/http';
-import {RouterTestingModule} from '@angular/router/testing';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {GameOverComponent} from '../game-over/game-over.component';
-import {WelcomeComponent} from '../welcome/welcome.component';
+import {MoviesService} from '../../services/backend/movies.service';
+import {ScoreService} from '../../services/front/score.service';
+import {QuestionsComponent} from './questions.component';
 
-describe('When the game is over', () => {
+describe('Questions', () => {
   let component: QuestionsComponent;
-  let fixture: ComponentFixture<QuestionsComponent>;
+  let router: Router;
+  let moviesService: MoviesService;
+  let scoreService: ScoreService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule.withRoutes(
-          [{path: 'game-over', component: GameOverComponent}]
-        ),
-        HttpClientTestingModule
-      ],
-      declarations: [ GameOverComponent, WelcomeComponent ]
-    })
-      .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(QuestionsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  beforeEach( () => {
+    moviesService = new MoviesService(null, null);
+    scoreService = new ScoreService();
+    component = new QuestionsComponent(router, scoreService, moviesService);
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should get true if movieId and castingId are equals', () => {
+    component.movieId = 11;
+    component.castingId = 11;
+    expect(component.getAnswer).toBeTruthy();
+  });
+
+  it('should hydrate movie table', () => {
+    const moviesSize = component.intern.database.length;
+    component.intern.addMovieId(15);
+    const newMoviesSize = component.intern.database.length;
+    expect(moviesSize).toBeGreaterThanOrEqual(newMoviesSize);
+  });
+
+  it('should give a random from intern database table', () => {
+    const movieIntern = component.intern.database;
+    expect(movieIntern).toContain(component.getRandomId(false));
+  });
+
+  it('should add movies only if is not in intern database', () => {
+    const first = component.intern.database[0];
+    component.intern.addMovieId(first);
+    // @ts-ignore
+    const count = component.intern.database.filter(x => first === x).length;
+    expect(count).toBe(1);
   });
 });

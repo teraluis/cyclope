@@ -21,15 +21,17 @@ export class QuestionComponent implements OnInit, OnChanges {
   isLoadActor = false;
   isLoadMovie = false;
   nullImg = 'https://image.tmdb.org/t/p/w500/null';
-
+  isDisabled = false;
   constructor(private _actorsService: ActorsService, private _moviesService: MoviesService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!changes.movieId?.isFirstChange() && changes.movieId?.currentValue !== changes.movieId?.previousValue) {
       this.initMovie();
+      this.castingId = 11; // avoids to handle an undefined casting id
     }
     if (!changes.castingId?.isFirstChange() && changes.castingId?.currentValue !== changes.castingId?.previousValue) {
       this.initCasting();
+      this.movieId = 10; // avoids to handle an undefined movie id
     }
   }
 
@@ -51,6 +53,7 @@ export class QuestionComponent implements OnInit, OnChanges {
           notFound: false,
           next: false
         });
+        this.isDisabled = false;
       } else {
         this.notify.emit( {
           msg: 'actor not found',
@@ -74,6 +77,7 @@ export class QuestionComponent implements OnInit, OnChanges {
           next: false,
           movie: this.movie
         });
+        this.isDisabled = false;
       } else {
         this.notify.emit( {
           msg: 'movie not found',
@@ -92,7 +96,7 @@ export class QuestionComponent implements OnInit, OnChanges {
       correct: true,
       next: true
     });
-    this.isLoadMovie = false;
+    this.isDisabled = true;
   }
 
   noAnswer() {
@@ -102,7 +106,7 @@ export class QuestionComponent implements OnInit, OnChanges {
       correct: false,
       next: true
     });
-    this.isLoadMovie = false;
+    this.isDisabled = true;
   }
 
 }

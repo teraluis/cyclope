@@ -1,26 +1,24 @@
 <h1>Question {{count}}</h1>
-<div *ngIf="actor && movie">
-  <div class="container">
-    <div class="actor">
-      <app-image *ngIf="isLoadActor" [img]="actor.img" [title]="actor.name" [alt]="actor.name"></app-image>
-    </div>
-    <div class="movie">
-      <app-image *ngIf="isLoadMovie" [img]="movie.img" [title]="movie.title" [alt]="movie.title"></app-image>
-    </div>
+<div class="container">
+  <div class="actor">
+    <app-image *ngIf="actor" [img]="actor.img" [title]="actor.name" [alt]="actor.name"></app-image>
+    <mat-spinner *ngIf="!actor" [diameter]="300"></mat-spinner>
   </div>
-  <div class="container">
-    <div class="message">
-      <app-question-message *ngIf="isLoadMovie && isLoadActor" [actor]="actor?.name" [movie]="movie?.title"></app-question-message>
-    </div>
-  </div>
-  <div class="tag">
-    <button style="display: block" mat-raised-button color="warn"
-                 (click)="noAnswer()">NO</button>
-    <button style="display: block" mat-raised-button color="primary"
-                 (click)="yesAnswer()">YES</button>
+  <div class="movie">
+    <app-image *ngIf="movie" [img]="movie.img" [title]="movie.title" [alt]="movie.title"></app-image>
+    <mat-spinner *ngIf="!movie" [diameter]="300"></mat-spinner>
   </div>
 </div>
-<div class="container" *ngIf="!actor || !movie">
-  <mat-spinner [diameter]="500"></mat-spinner>
+<div class="container">
+  <div class="message">
+    <app-question-message  [actor]="actor?.name" [movie]="movie?.title"></app-question-message>
+  </div>
 </div>
+<div class="tag">
+  <button style="display: block" mat-raised-button color="warn" [disabled]="isDisabled"
+          (click)="noAnswer()">NO</button>
+  <button style="display: block" mat-raised-button color="primary" [disabled]="isDisabled"
+          (click)="yesAnswer()">YES</button>
+</div>
+
 

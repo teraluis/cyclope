@@ -10,33 +10,36 @@ import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {MoviesService} from '../../services/backend/movies.service';
 import {Observable} from 'rxjs';
+import {ActorsService} from '../../services/backend/actors.service';
 
 
 describe('QuestionComponent', () => {
+  let actorService: ActorsService;
+  let moviesService: MoviesService;
   let component: QuestionComponent;
-  let fixture: ComponentFixture<QuestionComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule.withRoutes(
-          [{path: 'game-over', component: GameOverComponent}]
-        ),
-        HttpClientTestingModule
-      ],
-      declarations: [ GameOverComponent, WelcomeComponent ],
-      providers: [MoviesService],
-      schemas: [NO_ERRORS_SCHEMA]
-    })
-      .compileComponents();
-  }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QuestionComponent);
-    component = fixture.componentInstance;
+    actorService = new ActorsService(null, null);
+    moviesService = new MoviesService(null, null);
+    component = new QuestionComponent(actorService, moviesService);
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should raise next movie when click yes', () => {
+    let movie = null;
+    component.notify.subscribe(mov => movie = mov);
+    component.yesAnswer();
+    expect(movie.next).toBeTruthy();
+    expect(component.isLoadActor).toBeFalsy();
+    expect(component.isLoadMovie).toBeFalsy();
   });
+
+  it('should raise next movie when click no', () => {
+    let movie = null;
+    component.notify.subscribe(mov => movie = mov);
+    component.noAnswer();
+    expect(movie.next).toBeTruthy();
+    expect(component.isLoadActor).toBeFalsy();
+    expect(component.isLoadMovie).toBeFalsy();
+  });
+
 });

@@ -29,7 +29,7 @@ export class WelcomeComponent implements OnInit {
   }
 
   getLastMovie() {
-    this.movieService.getLastMovie().subscribe((movie) => {
+    this.movieService.getLastMovie().subscribe((movie: Movie) => {
       localStorage.setItem('latest', String(movie.id));
       this.latestLoad = true;
     });

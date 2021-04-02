@@ -51,7 +51,7 @@ export class MoviesService {
       }));
   }
 
-  getAllMovies(): Observable<any> {
+  getAllMovies(): Observable<Movies> {
     return this.http.get(this._baseUrl + '/intern/movies')
       .pipe(map((resp: Movies) => resp), catchError((error: HttpErrorResponse) => {
         console.log(this.utilitiesService.handleError(error));

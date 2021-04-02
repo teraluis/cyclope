@@ -29,7 +29,7 @@ describe('QuestionMessageComponent', () => {
     component.movie = 'Star Wars';
     fixture.detectChanges();
     const question = fixture.debugElement.query(By.css('.question'));
-    const nativeElement: HTMLElement = question.nativeElement
+    const nativeElement: HTMLElement = question.nativeElement;
     expect(nativeElement.innerText).toContain('Mark Hamill');
     expect(nativeElement.innerText).toContain('Star Wars');
   });

@@ -31,10 +31,6 @@ describe('Game is Over', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
   it('it should start new quiz when click retry', () => {
     const router = TestBed.get(Router);
     const spy = spyOn(router, 'navigate');

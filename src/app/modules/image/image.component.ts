@@ -6,7 +6,7 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./image.component.scss']
 })
 export class ImageComponent implements OnInit {
-  @Input() img;
+  @Input() img = '../../../assets/image-not-found.jpeg';
   @Input() alt;
   @Input() title;
   constructor() { }
