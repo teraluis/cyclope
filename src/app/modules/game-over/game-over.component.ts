@@ -46,7 +46,7 @@ export class GameOverComponent implements OnInit, OnDestroy {
   }
 
   updateHighScore(): boolean {
-    if (this.score > parseInt(this.highScore, 10)) {
+    if (this.score > Number(this.highScore)) {
       this.highScoreBeated = true;
       localStorage.setItem('highScore', String(this.score));
     }

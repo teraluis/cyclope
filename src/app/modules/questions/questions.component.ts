@@ -17,14 +17,14 @@ export class QuestionsComponent implements OnInit, OnDestroy {
 
   scoreSubscription: Subscription;
   highScore: number;
-  score = 0;
+  score: number;
   movieId: number;
   castingId: number;
   question = 1;
   latest: number;
   intern = new Rand();
   dbCount: number;
-
+  isIntern: boolean;
   constructor(private router: Router, public scoreService: ScoreService, public movieService: MoviesService) {}
 
   ngOnInit(): void {
@@ -32,6 +32,7 @@ export class QuestionsComponent implements OnInit, OnDestroy {
     this.latest = StorageHelper.initStorage('latest', 1000);
     this.highScore = StorageHelper.initStorage('highScore', 0);
     this.dbCount = StorageHelper.initStorage('dbCount', 10);
+    this.score = 0;
     this.loadMoviesFromDB(this.dbCount);
   }
 
@@ -88,6 +89,7 @@ export class QuestionsComponent implements OnInit, OnDestroy {
   }
 
   executeRandsMovieId(theMDB?: boolean) {
+    (theMDB) ? this.isIntern = false : this.isIntern = true;
     this.movieId = this.getRandomId(theMDB);
     this.castingId = this.getRandomId(theMDB);
     if (Rand.pile(10)) { this.castingId = this.movieId; }

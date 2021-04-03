@@ -9,6 +9,7 @@ export class ImageComponent implements OnInit {
   @Input() img = '../../../assets/image-not-found.jpeg';
   @Input() alt;
   @Input() title;
+  notFound = 'https://image.tmdb.org/t/p/w500/null';
   constructor() { }
 
   ngOnInit(): void {

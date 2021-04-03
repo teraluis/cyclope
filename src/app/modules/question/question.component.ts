@@ -10,10 +10,11 @@ import {timeout} from 'rxjs/operators';
   templateUrl: './question.component.html',
   styleUrls: ['./question.component.scss']
 })
-export class QuestionComponent implements OnInit, OnChanges {
+export class QuestionComponent implements OnChanges {
   @Input() count = 1;
   @Input() movieId;
   @Input() castingId;
+  @Input() isIntern: boolean;
   @Output() notify: EventEmitter<Notification> = new EventEmitter<Notification>();
   actor: Actor;
   movie: Movie;
@@ -25,19 +26,20 @@ export class QuestionComponent implements OnInit, OnChanges {
   constructor(private _actorsService: ActorsService, private _moviesService: MoviesService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!changes.movieId?.isFirstChange() && changes.movieId?.currentValue !== changes.movieId?.previousValue) {
-      this.initMovie();
-      this.castingId = 11; // avoids to handle an undefined casting id
-    }
-    if (!changes.castingId?.isFirstChange() && changes.castingId?.currentValue !== changes.castingId?.previousValue) {
+    const count = changes.count;
+    if (!count?.previousValue < !count?.currentValue) {
       this.initCasting();
-      this.movieId = 11; // avoids to handle an undefined movie id
+      this.initMovie();
+    } else {
+      const movie = changes.movieId;
+      const casting = changes.castingId;
+      if (movie && movie?.previousValue !== movie?.currentValue) {
+        this.initMovie();
+      }
+      if (casting && casting?.previousValue !== casting.currentValue) {
+        this.initCasting();
+      }
     }
-  }
-
-  ngOnInit(): void {
-    this.initCasting();
-    this.initMovie();
   }
 
   initCasting() {
@@ -46,12 +48,17 @@ export class QuestionComponent implements OnInit, OnChanges {
         const castingWithImages = casting.filter(actor => actor.img !== this.nullImg);
         const size = castingWithImages.length;
         const actorPosition = Rand.getRandomInt(size);
-        this.actor = castingWithImages[actorPosition];
+        if (size > 0) {
+          this.actor = castingWithImages[actorPosition];
+        } else {
+          this.actor = casting[Rand.getRandomInt(casting.length)];
+        }
         this.isLoadActor = true;
         this.notify.emit( {
           msg: 'actor found',
           notFound: false,
-          next: false
+          next: false,
+          castingId: this.castingId
         });
         this.isDisabled = false;
       } else {
@@ -69,13 +76,13 @@ export class QuestionComponent implements OnInit, OnChanges {
     this._moviesService.getMovieById(this.movieId).subscribe((movie: Movie) => {
       if (movie.img !== this.nullImg && movie.img !== undefined) {
         this.movie = movie;
-        this._moviesService.addMovie(movie);
+        if (!this.isIntern) { this._moviesService.addMovie(movie); }
         this.isLoadMovie = true;
         this.notify.emit( {
           msg: 'movie found',
           notFound: false,
           next: false,
-          movie: this.movie
+          movieId: movie.id
         });
         this.isDisabled = false;
       } else {
@@ -116,5 +123,6 @@ export interface Notification {
   correct?: boolean;
   notFound: boolean;
   next?: boolean;
-  movie?: Movie;
+  movieId?: number;
+  castingId?: number;
 }

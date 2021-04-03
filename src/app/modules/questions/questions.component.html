@@ -10,7 +10,8 @@
       --SCORE--</span>
   </div>
 </div>
-<app-question [castingId]="castingId"
+<app-question *ngIf="castingId && movieId" [castingId]="castingId"
+              [isIntern]="isIntern"
               [movieId]="movieId"
               [count]="question"
               (notify)="movie($event)"
