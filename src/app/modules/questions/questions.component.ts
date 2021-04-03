@@ -44,7 +44,7 @@ export class QuestionsComponent implements OnInit, OnDestroy {
 
   movie($event: Notification) {
     if ($event.notFound) {
-      this.notFound($event.msg);
+      (Rand.pile(100)) ? this.notFound($event.msg) : this.executeRandsMovieId(false);
     } else {
       if ($event.correct === this.getAnswer()) {
         ++this.score;
@@ -67,6 +67,7 @@ export class QuestionsComponent implements OnInit, OnDestroy {
       default:
         this.executeRandsMovieId(false);
     }
+    this.setYesOrNo();
   }
 
   chronometer($event: boolean) {
@@ -90,7 +91,7 @@ export class QuestionsComponent implements OnInit, OnDestroy {
   executeRandsMovieId(theMDB?: boolean) {
     this.movieId = this.getRandomId(theMDB);
     this.castingId = this.getRandomId(theMDB);
-    if (Rand.pile(10)) { this.castingId = this.movieId; }
+    this.setYesOrNo();
   }
 
   getRandomId(theMDB: boolean): number {
@@ -99,6 +100,10 @@ export class QuestionsComponent implements OnInit, OnDestroy {
 
   getAnswer() {
     return (this.movieId === this.castingId);
+  }
+
+  setYesOrNo() {
+    if (Rand.pile(100)) { this.castingId = this.movieId; }
   }
 
   ngOnDestroy(): void {

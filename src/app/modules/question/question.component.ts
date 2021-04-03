@@ -26,7 +26,7 @@ export class QuestionComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     const count = changes.count;
-    if (!count?.previousValue < !count?.currentValue) {
+    if (count && count?.previousValue !== count?.currentValue) {
       this.initCasting();
       this.initMovie();
     } else {
