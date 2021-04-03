@@ -11,7 +11,6 @@
   </div>
 </div>
 <app-question *ngIf="castingId && movieId" [castingId]="castingId"
-              [isIntern]="isIntern"
               [movieId]="movieId"
               [count]="question"
               (notify)="movie($event)"

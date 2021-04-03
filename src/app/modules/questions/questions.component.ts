@@ -24,7 +24,6 @@ export class QuestionsComponent implements OnInit, OnDestroy {
   latest: number;
   intern = new Rand();
   dbCount: number;
-  isIntern: boolean;
   constructor(private router: Router, public scoreService: ScoreService, public movieService: MoviesService) {}
 
   ngOnInit(): void {
@@ -89,7 +88,6 @@ export class QuestionsComponent implements OnInit, OnDestroy {
   }
 
   executeRandsMovieId(theMDB?: boolean) {
-    (theMDB) ? this.isIntern = false : this.isIntern = true;
     this.movieId = this.getRandomId(theMDB);
     this.castingId = this.getRandomId(theMDB);
     if (Rand.pile(10)) { this.castingId = this.movieId; }

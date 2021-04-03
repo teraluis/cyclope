@@ -14,7 +14,6 @@ export class QuestionComponent implements OnChanges {
   @Input() count = 1;
   @Input() movieId;
   @Input() castingId;
-  @Input() isIntern: boolean;
   @Output() notify: EventEmitter<Notification> = new EventEmitter<Notification>();
   actor: Actor;
   movie: Movie;
@@ -76,7 +75,7 @@ export class QuestionComponent implements OnChanges {
     this._moviesService.getMovieById(this.movieId).subscribe((movie: Movie) => {
       if (movie.img !== this.nullImg && movie.img !== undefined) {
         this.movie = movie;
-        if (!this.isIntern) { this._moviesService.addMovie(movie); }
+        this._moviesService.addMovie(movie).subscribe();
         this.isLoadMovie = true;
         this.notify.emit( {
           msg: 'movie found',
