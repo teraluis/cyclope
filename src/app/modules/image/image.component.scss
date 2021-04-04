@@ -1,8 +1,9 @@
 $imgWidth: 300px;
-$imgHeight: auto;
+$imgHeight: 450px;
+
 .img {
   width: $imgWidth;
-  max-height: 450px;
+  height: $imgHeight;
   border-radius: 10px;
   box-shadow: -11px 4px 29px 0px rgba(54,105,210,0.75);
   -webkit-box-shadow: -11px 4px 29px 0px rgba(54,105,210,0.75);
@@ -12,7 +13,7 @@ $imgHeight: auto;
 .notFound {
   background-image: url("../../../assets/image-not-found.jpeg");
   width: $imgWidth;
-  height: 450px;
+  height: $imgHeight;
   border-radius: 10px;
   background-size: cover;
   background-position: center;

@@ -15,10 +15,10 @@
   </div>
 </div>
 <div class="tag">
-  <button style="display: block" mat-raised-button color="warn" [disabled]="isDisabled"
-          (click)="noAnswer()">NO</button>
-  <button style="display: block" mat-raised-button color="primary" [disabled]="isDisabled"
-          (click)="yesAnswer()">YES</button>
+  <button style="display: block" mat-raised-button color="warn" [disabled]="isDisabled()"
+          (click)="setAnswer(false)">NO</button>
+  <button style="display: block" mat-raised-button color="primary" [disabled]="isDisabled()"
+          (click)="setAnswer(true)">YES</button>
 </div>
 
 

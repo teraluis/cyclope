@@ -47,4 +47,14 @@ describe('Questions', () => {
     component.score = 0;
     expect(component.incrementScore(true)).toBe(1);
   });
+
+  it('should increment question number when call next', () => {
+    component.question = 3;
+    expect(component.nextQuestion(true)).toBe(4);
+  });
+  it('should change movie id when click next', () => {
+    component.movieId = 11;
+    component.nextQuestion(true);
+    expect(component.movieId).not.toBe(11);
+  });
 });

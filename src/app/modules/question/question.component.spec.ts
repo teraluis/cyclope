@@ -17,19 +17,15 @@ describe('QuestionComponent', () => {
   it('should raise next movie when click yes', () => {
     let movie = null;
     component.notify.subscribe(mov => movie = mov);
-    component.yesAnswer();
+    component.setAnswer(true);
     expect(movie.next).toBeTruthy();
-    expect(component.isLoadActor).toBeFalsy();
-    expect(component.isLoadMovie).toBeFalsy();
   });
 
   it('should raise next movie when click no', () => {
     let movie = null;
     component.notify.subscribe(mov => movie = mov);
-    component.noAnswer();
+    component.setAnswer(false);
     expect(movie.next).toBeTruthy();
-    expect(component.isLoadActor).toBeFalsy();
-    expect(component.isLoadMovie).toBeFalsy();
   });
 
 });

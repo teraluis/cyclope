@@ -19,9 +19,6 @@ export class QuestionComponent implements OnChanges {
   actor: Actor;
   movie: Movie;
 
-  isLoadActor = false;
-  isLoadMovie = false;
-  isDisabled = false;
   constructor(private _actorsService: ActorsService, private _moviesService: MoviesService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -37,77 +34,51 @@ export class QuestionComponent implements OnChanges {
 
   initCasting() {
     this._actorsService.getMovieCasting(this.castingId).subscribe((casting) => {
-      if (casting.length > 0) {
-        const castingWithImages = casting.filter(actor => actor.img !== nullImage());
-        const size = castingWithImages.length;
-        const actorPosition = Rand.getRandomInt(size);
-        if (size > 0) {
-          this.actor = castingWithImages[actorPosition];
-        } else {
-          this.actor = casting[Rand.getRandomInt(casting.length)];
-        }
-        this.isLoadActor = true;
-        this.notify.emit( {
-          msg: 'actor found',
-          notFound: false,
-          next: false,
-          castingId: this.castingId
-        });
-        this.isDisabled = false;
-      } else {
-        this.notify.emit( {
-          msg: 'actor not found',
-          notFound: true,
-          next: false
-        });
-        this.isLoadActor = false;
-      }
+      this.notify.emit( this.setCasting(casting));
     }, (error) => console.log(error));
   }
 
   initMovie() {
     this._moviesService.getMovieById(this.movieId).subscribe((movie: Movie) => {
-      if (movie.img !== nullImage() && movie.img !== undefined) {
-        this.movie = movie;
-        this.isLoadMovie = true;
-        this.notify.emit( {
-          msg: 'movie found',
-          notFound: false,
-          next: false,
-          movie
-        });
-        this.isDisabled = false;
-      } else {
-        this.notify.emit( {
-          msg: 'movie not found',
-          notFound: true,
-          next: false
-        });
-        this.isLoadMovie = false;
-      }
+      this.notify.emit( this.setMovie(movie));
     }, (error) => console.log(error));
   }
 
-  yesAnswer() {
-    this.notify.emit( {
-      msg: 'yes answer',
-      notFound: false,
-      correct: true,
-      next: true
-    });
-    this.isDisabled = true;
+  setAnswer(answer: boolean): void {
+    this.notify.emit( {msg: 'yes answer', notFound: false, correct: answer, next: true});
   }
 
-  noAnswer() {
-    this.notify.emit( {
-      msg: 'no answer',
-      notFound: false,
-      correct: false,
-      next: true
-    });
-    this.isDisabled = true;
+  isDisabled(): boolean {
+    return !this.movie || !this.actor;
   }
 
+  getRandomActor(casting: Actor[]): Actor {
+    const castingWithImages = casting.filter(actor => actor.img !== nullImage());
+    const size = castingWithImages.length;
+    const actorPosition = Rand.getRandomInt(size);
+    return (size > 0) ? castingWithImages[actorPosition] : casting[Rand.getRandomInt(casting.length)];
+  }
+
+  setCasting(casting: Actor[]): Notification {
+    let msg: string; let notFound: boolean;
+    if (casting.length > 0) {
+      this.actor = this.getRandomActor(casting);
+      msg = 'actor found'; notFound = false;
+    } else {
+      msg = 'actor not found'; notFound = true;
+    }
+    return {msg, notFound, next: false, castingId: this.castingId};
+  }
+
+  setMovie(movie: Movie): Notification {
+    let msg: string; let notFound: boolean;
+    if (movie.img !== nullImage() && movie.img !== undefined) {
+      this.movie = movie; msg = 'movie found'; notFound = false;
+    } else {
+      msg = 'movie not found'; notFound = true;
+    }
+    return {msg, notFound, next: false, movie};
+  }
 }
 
 export interface Notification {

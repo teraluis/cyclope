@@ -52,6 +52,13 @@ export class QuestionsComponent implements OnInit, OnDestroy {
     }
   }
 
+  chronometer($event: boolean): void {
+    if ($event) {
+      this.scoreService.setScore(this.score);
+      this.router.navigate([MenuStep.GAME_OVER]);
+    }
+  }
+
   incrementScore(answer: boolean): number {
     if (answer === this.getAnswer()) {
       ++this.score;
@@ -90,20 +97,11 @@ export class QuestionsComponent implements OnInit, OnDestroy {
     this.setYesOrNo();
   }
 
-  chronometer($event: boolean): void {
-    if ($event) {
-      this.scoreService.setScore(this.score);
-      this.router.navigate([MenuStep.GAME_OVER]);
-    }
-  }
-
   loadMoviesFromDB(limit: number): void {
     const rand = Rand.customRand(limit, 100);
     this.movieService.getAllMovies(rand[0], rand[1]).subscribe((resp: Movies) => {
       const movies: Movie[] = resp.movies;
-      movies.forEach(movie => {
-        this.intern.addMovieId(movie.id);
-      });
+      movies.forEach(movie => { this.intern.addMovieId(movie.id); });
       this.executeRandsMovieId(false);
     });
   }
@@ -118,7 +116,7 @@ export class QuestionsComponent implements OnInit, OnDestroy {
     return (theMDB) ? Rand.getRandomInt(this.latest) : this.intern.randomMovieId();
   }
 
-  getAnswer() {
+  getAnswer(): boolean {
     return (this.movieId === this.castingId);
   }
 
