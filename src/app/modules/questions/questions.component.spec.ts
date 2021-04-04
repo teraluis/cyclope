@@ -40,4 +40,11 @@ describe('Questions', () => {
     const count = component.intern.database.filter(x => first === x).length;
     expect(count).toBe(1);
   });
+
+  it('should increment score when we have a good answer', () =>{
+    component.movieId = 11;
+    component.castingId = 11;
+    component.score = 0;
+    expect(component.incrementScore(true)).toBe(1);
+  });
 });

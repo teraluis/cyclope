@@ -46,17 +46,37 @@ export class QuestionsComponent implements OnInit, OnDestroy {
     if ($event.notFound) {
       (Rand.pile(100)) ? this.notFound($event.msg) : this.executeRandsMovieId(false);
     } else {
-      if ($event.correct === this.getAnswer()) {
-        ++this.score;
-      }
-      if ($event.next) {
-        ++this.question;
-        this.executeRandsMovieId(true);
-      }
+      this.incrementScore($event.correct);
+      this.nextQuestion($event.next);
+      this.addToInternDB($event);
     }
   }
 
-  notFound(message: string) {
+  incrementScore(answer: boolean): number {
+    if (answer === this.getAnswer()) {
+      ++this.score;
+    }
+    return this.score;
+  }
+
+  nextQuestion(next: boolean) {
+    if (next) {
+      ++this.question;
+      this.executeRandsMovieId(true);
+    }
+    return this.question;
+  }
+
+  addToInternDB(notification: Notification): boolean {
+    if (!notification.notFound && notification.msg === 'movie found' && !this.intern.isInDB(notification.movie.id)) {
+      this.movieService.addMovie(notification.movie).subscribe();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  notFound(message: string): void {
     switch (message) {
       case 'movie not found':
         this.movieId = this.getRandomId(false);
@@ -70,14 +90,14 @@ export class QuestionsComponent implements OnInit, OnDestroy {
     this.setYesOrNo();
   }
 
-  chronometer($event: boolean) {
+  chronometer($event: boolean): void {
     if ($event) {
       this.scoreService.setScore(this.score);
       this.router.navigate([MenuStep.GAME_OVER]);
     }
   }
 
-  loadMoviesFromDB(limit: number) {
+  loadMoviesFromDB(limit: number): void {
     const rand = Rand.customRand(limit, 100);
     this.movieService.getAllMovies(rand[0], rand[1]).subscribe((resp: Movies) => {
       const movies: Movie[] = resp.movies;
@@ -88,10 +108,10 @@ export class QuestionsComponent implements OnInit, OnDestroy {
     });
   }
 
-  executeRandsMovieId(theMDB?: boolean) {
+  executeRandsMovieId(theMDB?: boolean): boolean {
     this.movieId = this.getRandomId(theMDB);
     this.castingId = this.getRandomId(theMDB);
-    this.setYesOrNo();
+    return this.setYesOrNo();
   }
 
   getRandomId(theMDB: boolean): number {
@@ -102,8 +122,9 @@ export class QuestionsComponent implements OnInit, OnDestroy {
     return (this.movieId === this.castingId);
   }
 
-  setYesOrNo() {
+  setYesOrNo(): boolean {
     if (Rand.pile(100)) { this.castingId = this.movieId; }
+    return this.castingId === this.movieId;
   }
 
   ngOnDestroy(): void {

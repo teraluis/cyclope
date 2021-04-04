@@ -20,10 +20,6 @@ describe('QuestionMessageComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
   it('should ask Did Mark Hamill play in Star Wars', () => {
     component.actor = 'Mark Hamill';
     component.movie = 'Star Wars';

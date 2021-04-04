@@ -31,8 +31,12 @@ export class Rand {
   }
 
   addMovieId(id: number) {
-    if (!this.database.includes(id)) {
+    if (!this.isInDB(id)) {
       this.database.push(id);
     }
+  }
+
+  isInDB(id: number): boolean {
+    return this.database.includes(id);
   }
 }

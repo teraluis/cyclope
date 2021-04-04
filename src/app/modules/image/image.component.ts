@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {nullImage} from '../../core/nullImg';
 
 @Component({
   selector: 'app-image',
@@ -9,7 +10,7 @@ export class ImageComponent implements OnInit {
   @Input() img = '../../../assets/image-not-found.jpeg';
   @Input() alt;
   @Input() title;
-  notFound = 'https://image.tmdb.org/t/p/w500/null';
+  notFound = nullImage();
   constructor() { }
 
   ngOnInit(): void {

@@ -4,7 +4,8 @@ import {Movie} from '../../core/Movie';
 import {ActorsService} from '../../services/backend/actors.service';
 import {MoviesService} from '../../services/backend/movies.service';
 import {Rand} from '../../core/Rand';
-import {timeout} from 'rxjs/operators';
+import {nullImage} from '../../core/nullImg';
+
 @Component({
   selector: 'app-question',
   templateUrl: './question.component.html',
@@ -20,31 +21,24 @@ export class QuestionComponent implements OnChanges {
 
   isLoadActor = false;
   isLoadMovie = false;
-  nullImg = 'https://image.tmdb.org/t/p/w500/null';
   isDisabled = false;
   constructor(private _actorsService: ActorsService, private _moviesService: MoviesService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    const count = changes.count;
-    if (count && count?.previousValue !== count?.currentValue) {
-      this.initCasting();
+    const movie = changes.movieId;
+    const casting = changes.castingId;
+    if (movie && movie?.previousValue !== movie?.currentValue) {
       this.initMovie();
-    } else {
-      const movie = changes.movieId;
-      const casting = changes.castingId;
-      if (movie && movie?.previousValue !== movie?.currentValue) {
-        this.initMovie();
-      }
-      if (casting && casting?.previousValue !== casting.currentValue) {
-        this.initCasting();
-      }
+    }
+    if (casting && casting?.previousValue !== casting.currentValue) {
+      this.initCasting();
     }
   }
 
   initCasting() {
     this._actorsService.getMovieCasting(this.castingId).subscribe((casting) => {
       if (casting.length > 0) {
-        const castingWithImages = casting.filter(actor => actor.img !== this.nullImg);
+        const castingWithImages = casting.filter(actor => actor.img !== nullImage());
         const size = castingWithImages.length;
         const actorPosition = Rand.getRandomInt(size);
         if (size > 0) {
@@ -73,15 +67,14 @@ export class QuestionComponent implements OnChanges {
 
   initMovie() {
     this._moviesService.getMovieById(this.movieId).subscribe((movie: Movie) => {
-      if (movie.img !== this.nullImg && movie.img !== undefined) {
+      if (movie.img !== nullImage() && movie.img !== undefined) {
         this.movie = movie;
-        this._moviesService.addMovie(movie).subscribe();
         this.isLoadMovie = true;
         this.notify.emit( {
           msg: 'movie found',
           notFound: false,
           next: false,
-          movieId: movie.id
+          movie
         });
         this.isDisabled = false;
       } else {
@@ -122,6 +115,6 @@ export interface Notification {
   correct?: boolean;
   notFound: boolean;
   next?: boolean;
-  movieId?: number;
+  movie?: Movie;
   castingId?: number;
 }
