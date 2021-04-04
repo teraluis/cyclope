@@ -45,7 +45,7 @@ export class QuestionComponent implements OnChanges {
   }
 
   setAnswer(answer: boolean): void {
-    this.notify.emit( {msg: 'yes answer', notFound: false, correct: answer, next: true});
+    this.notify.emit( {msg: 'answer', notFound: false, correct: answer, next: true});
   }
 
   isDisabled(): boolean {
