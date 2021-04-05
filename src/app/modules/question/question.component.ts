@@ -68,7 +68,7 @@ export class QuestionComponent implements OnChanges {
     } else {
       msg = 'actor not found'; notFound = true;
     }
-    this.isLoad.actor = true;
+    this.isLoad.actor = this.setIsLoadActor();
     return {msg, notFound, next: false, castingId: this.castingId};
   }
 
@@ -76,12 +76,19 @@ export class QuestionComponent implements OnChanges {
     let msg: string; let notFound: boolean;
     if (movie.img !== nullImage() && movie.img !== undefined) {
       this.movie = movie; msg = 'movie found'; notFound = false;
-      this.isLoad.movie = true;
     } else {
       msg = 'movie not found'; notFound = true;
-      this.isLoad.movie = false;
     }
+    this.isLoad.movie = this.setIsLoadMovie();
     return {msg, notFound, next: false, movie};
+  }
+
+  setIsLoadActor(): boolean {
+    return (this.actor !== null);
+  }
+
+  setIsLoadMovie(): boolean {
+    return (this.movie !== null);
   }
 }
 
