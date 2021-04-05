@@ -18,7 +18,7 @@ export class QuestionComponent implements OnChanges {
   @Output() notify: EventEmitter<Notification> = new EventEmitter<Notification>();
   actor: Actor;
   movie: Movie;
-
+  isLoad: IsLoad = {movie: false, actor: false};
   constructor(private _actorsService: ActorsService, private _moviesService: MoviesService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -27,7 +27,7 @@ export class QuestionComponent implements OnChanges {
     if (movie && movie?.previousValue !== movie?.currentValue) {
       this.initMovie();
     }
-    if (casting && casting?.previousValue !== casting.currentValue) {
+    if (casting && casting?.previousValue !== casting?.currentValue) {
       this.initCasting();
     }
   }
@@ -46,10 +46,11 @@ export class QuestionComponent implements OnChanges {
 
   setAnswer(answer: boolean): void {
     this.notify.emit( {msg: 'answer', notFound: false, correct: answer, next: true});
+    this.isLoad = {movie: false, actor: false};
   }
 
   isDisabled(): boolean {
-    return !this.movie || !this.actor;
+      return (!this.isLoad.movie || !this.isLoad.actor);
   }
 
   getRandomActor(casting: Actor[]): Actor {
@@ -64,8 +65,10 @@ export class QuestionComponent implements OnChanges {
     if (casting.length > 0) {
       this.actor = this.getRandomActor(casting);
       msg = 'actor found'; notFound = false;
+      this.isLoad.actor = true;
     } else {
       msg = 'actor not found'; notFound = true;
+      this.isLoad.actor = false;
     }
     return {msg, notFound, next: false, castingId: this.castingId};
   }
@@ -74,8 +77,10 @@ export class QuestionComponent implements OnChanges {
     let msg: string; let notFound: boolean;
     if (movie.img !== nullImage() && movie.img !== undefined) {
       this.movie = movie; msg = 'movie found'; notFound = false;
+      this.isLoad.movie = true;
     } else {
       msg = 'movie not found'; notFound = true;
+      this.isLoad.movie = false;
     }
     return {msg, notFound, next: false, movie};
   }
@@ -88,4 +93,9 @@ export interface Notification {
   next?: boolean;
   movie?: Movie;
   castingId?: number;
+}
+
+export interface IsLoad {
+  movie: boolean;
+  actor: boolean;
 }
