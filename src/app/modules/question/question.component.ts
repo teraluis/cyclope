@@ -34,13 +34,13 @@ export class QuestionComponent implements OnChanges {
 
   initCasting() {
     this._actorsService.getMovieCasting(this.castingId).subscribe((casting) => {
-      this.notify.emit( this.setCasting(casting));
+      this.notify.emit(this.setCasting(casting));
     }, (error) => console.log(error));
   }
 
   initMovie() {
     this._moviesService.getMovieById(this.movieId).subscribe((movie: Movie) => {
-      this.notify.emit( this.setMovie(movie));
+      this.notify.emit(this.setMovie(movie));
     }, (error) => console.log(error));
   }
 
@@ -60,7 +60,7 @@ export class QuestionComponent implements OnChanges {
     return (size > 0) ? castingWithImages[actorPosition] : casting[Rand.getRandomInt(casting.length)];
   }
 
-  setCasting(casting: Actor[]): Notification {
+  setCasting(casting: Actor[] | []): Notification {
     let msg: string; let notFound: boolean;
     if (casting.length > 0) {
       this.actor = this.getRandomActor(casting);
