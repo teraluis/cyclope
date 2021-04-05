@@ -65,11 +65,10 @@ export class QuestionComponent implements OnChanges {
     if (casting.length > 0) {
       this.actor = this.getRandomActor(casting);
       msg = 'actor found'; notFound = false;
-      this.isLoad.actor = true;
     } else {
       msg = 'actor not found'; notFound = true;
-      this.isLoad.actor = false;
     }
+    this.isLoad.actor = true; // some times they are movies without any casting ex: 784105
     return {msg, notFound, next: false, castingId: this.castingId};
   }
 
