@@ -46,7 +46,7 @@ export class QuestionsComponent implements OnInit, OnDestroy {
     if ($event.notFound) {
       (Rand.pile(100)) ? this.notFound($event.msg) : this.executeRandsMovieId(false);
     } else {
-      this.incrementScore($event.correct);
+      this.incrementScore($event.yes);
       this.addToInternDB($event);
       this.nextQuestion($event.next);
     }

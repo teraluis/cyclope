@@ -44,8 +44,8 @@ export class QuestionComponent implements OnChanges {
     }, (error) => console.log(error));
   }
 
-  setAnswer(answer: boolean): void {
-    this.notify.emit( {msg: 'answer', notFound: false, correct: answer, next: true});
+  setAnswer(yes: boolean): void {
+    this.notify.emit( {msg: 'answer', notFound: false, yes, next: true});
     this.isLoad = {movie: false, actor: false};
   }
 
@@ -88,7 +88,7 @@ export class QuestionComponent implements OnChanges {
 
 export interface Notification {
   msg: string;
-  correct?: boolean;
+  yes?: boolean;
   notFound: boolean;
   next?: boolean;
   movie?: Movie;
