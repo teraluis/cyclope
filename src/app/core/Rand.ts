@@ -1,9 +1,10 @@
+import {Movie} from './Movie';
+
 export class Rand {
-  constructor() {
-  }
-  database = [11, 15, 16, 231, 301, 302, 307, 308, 309, 310
-    , 311, 312, 445, 500, 4459, 3149, 1622, 8738, 5047,
-    641, 8290, 4213];
+  // memory tampon will be used only if the database is empty
+  database = [11, 15, 16];
+
+  constructor() {}
 
   static getRandomArbitrary(min, max): number {
     return Math.floor(Math.random() * (max - min) + min);
@@ -38,5 +39,11 @@ export class Rand {
 
   isInDB(id: number): boolean {
     return this.database.includes(id);
+  }
+
+  hydrateMoviesTampon(movies: Movie[]): number[] {
+    if (movies.length > 0) { this.database = []; }
+    movies.forEach(movie => { this.addMovieId(movie.id); });
+    return this.database;
   }
 }

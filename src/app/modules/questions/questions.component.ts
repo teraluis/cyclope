@@ -100,8 +100,7 @@ export class QuestionsComponent implements OnInit, OnDestroy {
   loadMoviesFromDB(limit: number): void {
     const rand = Rand.customRand(limit, 100);
     this.movieService.getAllMovies(rand[0], rand[1]).subscribe((resp: Movies) => {
-      const movies: Movie[] = resp.movies;
-      movies.forEach(movie => { this.intern.addMovieId(movie.id); });
+      this.intern.hydrateMoviesTampon(resp.movies);
       this.executeRandsMovieId(false);
     });
   }
